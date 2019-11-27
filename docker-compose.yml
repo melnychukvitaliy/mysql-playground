@@ -1,0 +1,19 @@
+version: "3.7"
+
+services:
+  app:
+    image: python:3.8
+    volumes:
+      - ./src:/usr/src
+    links:
+      - db
+  db:
+    image: mysql:8
+    restart: always
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: playground
+    ports:
+      - 3306:3306
