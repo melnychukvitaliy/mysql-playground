@@ -20,14 +20,16 @@ def fill_t1_table():
     'Fill `t1` table with random items'
     cursor = DB.cursor()
     current_item = 0
+    values = []
+    sql = 'INSERT INTO t1 (c1, c2) VALUES (%s, %s)'
     for _ in range(ELEMENTS):
-        cursor.execute(
-            'INSERT INTO t1 (c1, c2) VALUES (%s, %s)',
-            randint(0, MAX_RAND_INT), randint(0, MAX_RAND_INT))
+        values.append((randint(0, MAX_RAND_INT), randint(0, MAX_RAND_INT)),)
 
-        DB.commit()
         current_item = current_item + 1
         if current_item % 1000 == 0:
+            cursor.executemany(sql, values)
+            DB.commit()
+            values = []
             print(current_item, "records inserted.")
 
 
@@ -35,9 +37,9 @@ def fill_t2_table():
     'INSERT the same items into `t2` item'
     cursor = DB.cursor()
     cursor.execute(
-        'INSERT INTO t2 (c1, c2) SELECT c1, c2 FROM t1',
-        randint(0, MAX_RAND_INT), randint(0, MAX_RAND_INT))
+        'INSERT INTO t2 (c1, c2) SELECT c1, c2 FROM t1')
     DB.commit()
+
 
 fill_t1_table()
 fill_t2_table()
