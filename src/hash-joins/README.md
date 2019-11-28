@@ -6,6 +6,7 @@ Docs
 
 - https://dev.mysql.com/worklog/task/?id=2241
 - https://dev.mysql.com/doc/refman/8.0/en/nested-loop-joins.html#block-nested-loop-join-algorithm
+- https://dev.mysql.com/doc/refman/8.0/en/hash-joins.html
 
 ## Main concepts
 
@@ -21,6 +22,9 @@ Key points of implementation:
 - uses `xxHash64` as hashing function, ref(https://github.com/rurban/smhasher)
 - There is an ability to use `on-disk hash join
 - new `BufferRow`, `HashJoinIterator` and `HashJoinRowBuffer` interfaces,
+- Classic hash join scanning both inputs only once but it requires that the entire build input fits into memory.
+- on-disk hash join works with several smaller files on disk
+-  
 
 ## Running
 
