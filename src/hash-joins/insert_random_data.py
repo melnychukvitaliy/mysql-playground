@@ -33,13 +33,15 @@ def fill_t1_table():
             print(current_item, "records inserted.")
 
 
-def fill_t2_table():
+def fill_table(table):
     'INSERT the same items into `t2` item'
     cursor = DB.cursor()
     cursor.execute(
-        'INSERT INTO t2 (c1, c2) SELECT c1, c2 FROM t1')
+        'INSERT INTO %s (c1, c2) SELECT c1, c2 FROM t1' % table)
     DB.commit()
 
 
 fill_t1_table()
-fill_t2_table()
+fill_table('t2')
+fill_table('t1_indx')
+fill_table('t2_indx')
