@@ -37,7 +37,7 @@ def fill_t2_table():
     cursor.execute(
         'INSERT INTO t2 (c1, c2) SELECT c1, c2 FROM t1',
         randint(0, MAX_RAND_INT), randint(0, MAX_RAND_INT))
-
+    DB.commit()
 
 fill_t1_table()
 fill_t2_table()
