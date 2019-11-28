@@ -10,11 +10,10 @@ services:
       - db
   db:
     image: mysql:8
-    restart: always
     volumes:
       - ./data/mysql:/var/lib/mysql
     environment:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ROOT_PASSWORD: 123root123
       MYSQL_DATABASE: playground
     ports:
       - 3306:3306
