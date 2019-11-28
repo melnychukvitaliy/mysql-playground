@@ -28,7 +28,7 @@ RESULT = []
 
 for row1 in TABLE1:
     for row2 in TABLE2:
-        for row3 in TABLE1:
+        for row3 in TABLE3:
             OPERATIONS = OPERATIONS + 1
             # join conditions here
             if row3['value'] == row1['value']:
