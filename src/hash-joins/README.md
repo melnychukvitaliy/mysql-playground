@@ -9,5 +9,5 @@
 
 ```bash
     make shell
-    python insert_random_data.py
+    python ./src/hash-joins/insert_random_data.py
 ```
