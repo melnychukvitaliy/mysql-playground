@@ -20,7 +20,7 @@ Key points of implementation:
 - uses `std::unordered_multimap` as the hash table implementation
 - uses `xxHash64` as hashing function, ref(https://github.com/rurban/smhasher)
 - There is an ability to use `on-disk hash join
-- new `BufferRow` and `HashJoinRowBuffer` interfaces,
+- new `BufferRow`, `HashJoinIterator` and `HashJoinRowBuffer` interfaces,
 
 ## Running
 
@@ -50,6 +50,12 @@ select count(*) from t1 join t2 on t1.c2 = t2.c2;
 
 ```
 mysql> select /*+ NO_HASH_JOIN (t1,t2) */ count(*) from t1 join t2 on t1.c2 = t2.c2;
++----------+
+| count(*) |
++----------+
+| 39961411 |
++----------+
+1 row in set (41 min 52.24 sec)
 ```
 
 ### Joins Based on Indexes
@@ -89,4 +95,30 @@ mysql>  select count(*) from t1_idx ignore index (idx_c2) join t2_idx ignore ind
 | 39961411 |
 +----------+
 1 row in set (1.73 sec)
+```
+
+## Left join
+
+
+```
+mysql> select count(*) from t1_idx left join t2_idx on t1_idx.c2 = t2_idx.c2;
++----------+
+| count(*) |
++----------+
+| 39961411 |
++----------+
+1 row in set (6.70 sec)
+
+```
+
+
+```
+select count(*) from t1 left join t2 on t1.c2 = t2.c2;
++----------+
+| count(*) |
++----------+
+| 39961411 |
++----------+
+1 row in set (40 min 54.28 sec)
+
 ```
