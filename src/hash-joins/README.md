@@ -9,7 +9,13 @@ Docs
 
 ## Main concepts
 
-Hash Join:
+Hash Join Limitations:
+
+- it only works on columns that do not have indexes (or you have to ignore them).
+- It only works with equi-join conditions.
+- It does not work with LEFT or RIGHT JOIN.
+
+Key points of implementation:
 
 - uses `std::unordered_multimap` as the hash table implementation
 - uses `xxHash64` as hashing function, ref(https://github.com/rurban/smhasher)
