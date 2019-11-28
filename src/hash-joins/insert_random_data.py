@@ -12,16 +12,17 @@ DB = mysql.connector.connect(
     database="playground",
     auth_plugin='mysql_native_password'
 )
-MAX_RAND_INT = 1000000
+MAX_RAND_INT = 1000
 ELEMENTS = 200000
 
 
-def fill_t1_table():
+def fill_table_with_random_values(table):
     'Fill `t1` table with random items'
+    print('Inserting rows into %s' % table)
     cursor = DB.cursor()
     current_item = 0
     values = []
-    sql = 'INSERT INTO t1 (c1, c2) VALUES (%s, %s)'
+    sql = 'INSERT INTO %s (c1, c2) %s' % (table, 'VALUES (%s, %s)')
     for _ in range(ELEMENTS):
         values.append((randint(0, MAX_RAND_INT), randint(0, MAX_RAND_INT)),)
 
@@ -33,15 +34,15 @@ def fill_t1_table():
             print(current_item, "records inserted.")
 
 
-def fill_table(table):
+def copy_items(from_table, to_table):
     'INSERT the same items into `t2` item'
     cursor = DB.cursor()
     cursor.execute(
-        'INSERT INTO %s (c1, c2) SELECT c1, c2 FROM t1' % table)
+        'INSERT INTO %s (c1, c2) SELECT c1, c2 FROM %s' % (to_table, from_table))
     DB.commit()
 
 
-fill_t1_table()
-fill_table('t2')
-fill_table('t1_indx')
-fill_table('t2_indx')
+fill_table_with_random_values('t1')
+fill_table_with_random_values('t2')
+copy_items('t1', 't1_idx')
+copy_items('t2', 't2_idx')
